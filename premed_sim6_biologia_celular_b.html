@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
+<title>Simulacro Premedicina — Biología Celular y Microbiología (B) — Asesorías Académicas Izamal</title>
+<style>
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--azul:#0033cc;--azul-dark:#002299;--azul-light:#e8eeff;--naranja:#ff4500;--naranja-mid:#ff8c00;--bg:#f0f4ff;--card:#fff;--txt:#1a1a2e;--sub:#5a6080;--rad:14px;--shadow:0 6px 24px rgba(0,51,204,.13);}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:0 0 30px;}
+.hero{width:100%;background:linear-gradient(135deg,#0033cc 0%,#0011aa 60%,#001188 100%);padding:24px 20px 18px;display:flex;flex-direction:column;align-items:center;margin-bottom:18px;box-shadow:0 4px 20px rgba(0,0,0,.25);}
+.hero-inner{max-width:760px;width:100%;display:flex;align-items:center;gap:16px;}
+.hero-logo{width:76px;height:76px;flex-shrink:0;background:#fff;border-radius:50%;padding:5px;box-shadow:0 4px 14px rgba(0,0,0,.3);}
+.hero-logo img{width:100%;height:100%;object-fit:contain;border-radius:50%;}
+.hero-title{font-size:1.15rem;font-weight:800;color:#fff;line-height:1.2;}
+.hero-title span{color:#ff8c00}
+.hero-subtitle{font-size:.76rem;color:rgba(255,255,255,.8);margin-top:4px;line-height:1.5;}
+.hero-badge{display:inline-block;background:rgba(255,140,0,.25);border:1px solid rgba(255,140,0,.5);border-radius:20px;padding:3px 12px;font-size:.68rem;color:#ffd080;font-weight:700;margin-top:6px;}
+.hero-stripe{width:100%;height:4px;background:linear-gradient(90deg,#ff4500,#ff8c00,#ff4500);margin-top:16px;border-radius:3px;opacity:.7;}
+.wrap{width:100%;max-width:760px;padding:0 12px;}
+.card{background:var(--card);border-radius:var(--rad);box-shadow:var(--shadow);padding:22px 20px;margin-bottom:14px;}
+#screen-home h2{font-size:1.2rem;text-align:center;margin-bottom:6px;color:var(--azul);font-weight:800;}
+.home-sub{text-align:center;color:var(--sub);margin-bottom:18px;font-size:.84rem;line-height:1.6;}
+.info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;}
+.info-card{background:var(--azul-light);border-radius:12px;padding:13px 8px;text-align:center;border:2px solid #c0d0f0;}
+.info-card .val{font-size:1.3rem;font-weight:800;color:var(--azul);}
+.info-card .lbl{font-size:.7rem;color:var(--sub);margin-top:3px;font-weight:600;}
+.btn-primary{width:100%;border:none;border-radius:12px;padding:14px;cursor:pointer;font-size:.97rem;font-weight:800;background:linear-gradient(135deg,var(--naranja),var(--naranja-mid));color:#fff;box-shadow:0 4px 14px rgba(255,69,0,.35);transition:opacity .2s,transform .1s;}
+.btn-primary:hover{opacity:.92;}.btn-primary:active{transform:scale(.98);}
+#screen-exam{padding:0;}
+.exam-header{padding:14px 20px 0;display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;}
+.lectura-pill{font-size:.76rem;font-weight:700;color:#fff;background:linear-gradient(135deg,var(--azul),var(--azul-dark));padding:5px 13px;border-radius:20px;max-width:65%;line-height:1.3;}
+.timer-box{font-size:1rem;font-weight:800;padding:5px 13px;border-radius:20px;background:var(--azul-light);color:var(--azul);min-width:72px;text-align:center;border:2px solid #c0d0f0;flex-shrink:0;transition:all .3s;}
+.timer-box.warn{background:#fff3e8;color:#cc5500;border-color:#ffb080;}
+.timer-box.danger{background:#fff0f0;color:#cc0000;border-color:#ffb0b0;animation:pulse 1s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+.progress-wrap{margin:0 20px 6px;height:6px;background:#e0e8ff;border-radius:3px;overflow:hidden;}
+.progress-bar{height:6px;border-radius:3px;background:linear-gradient(90deg,var(--naranja),var(--naranja-mid));transition:width .35s;}
+.nav-section{padding:8px 20px 12px;border-bottom:2px solid var(--azul-light);}
+.nav-label{font-size:.69rem;color:var(--sub);margin-bottom:6px;font-weight:700;letter-spacing:.3px;}
+.nav-grid{display:flex;flex-wrap:wrap;gap:5px;}
+.nav-sep{width:100%;font-size:.67rem;color:var(--sub);font-weight:700;margin:5px 0 3px;letter-spacing:.3px;}
+.nav-btn{width:30px;height:30px;border-radius:7px;border:2px solid #d0d8f0;background:#fff;font-size:.78rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .18s;color:var(--txt);flex-shrink:0;}
+.nav-btn:hover{border-color:var(--azul);background:var(--azul-light);}
+.nav-btn.answered{background:var(--azul);border-color:var(--azul);color:#fff;}
+.nav-btn.wrong-nav{background:var(--naranja);border-color:var(--naranja);color:#fff;}
+.nav-btn.current{border-width:3px;transform:scale(1.1);}
+.exam-body{padding:14px 20px 20px;}
+.lectura-header{font-size:.88rem;font-weight:800;color:var(--azul);margin-bottom:12px;padding:8px 12px;background:var(--azul-light);border-radius:9px;border-left:4px solid var(--azul);}
+.lectura-texto{font-size:.87rem;line-height:1.8;color:var(--txt);margin-bottom:18px;padding:14px 16px;background:#fafbff;border:1px solid #d8e0f0;border-radius:10px;max-height:260px;overflow-y:auto;}
+.lectura-texto p{margin-bottom:10px;}.lectura-texto p:last-child{margin-bottom:0;}
+.q-num{font-size:.72rem;color:var(--sub);margin-bottom:6px;font-weight:700;letter-spacing:.3px;}
+.q-text{font-size:.94rem;line-height:1.7;margin-bottom:14px;font-weight:500;}
+.options{display:flex;flex-direction:column;gap:9px;}
+.opt-btn{border:2px solid #d0d8f0;border-radius:10px;background:#fff;padding:11px 14px;text-align:left;cursor:pointer;font-size:.88rem;line-height:1.5;transition:border-color .18s,background .18s;display:flex;align-items:flex-start;gap:10px;width:100%;}
+.opt-btn:hover:not(:disabled){border-color:var(--azul);background:var(--azul-light);}
+.opt-letter{min-width:26px;height:26px;border-radius:50%;background:#e8eeff;font-weight:800;font-size:.79rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;color:var(--azul);}
+.opt-btn.correct{border-color:#27ae60;background:#eafaf1;}.opt-btn.correct .opt-letter{background:#27ae60;color:#fff;}
+.opt-btn.wrong{border-color:var(--naranja);background:#fff3f0;}.opt-btn.wrong .opt-letter{background:var(--naranja);color:#fff;}
+.opt-btn:disabled{cursor:default;}
+.explanation{display:none;margin-top:11px;background:#f8f9fe;border-left:4px solid #27ae60;padding:9px 13px;border-radius:0 8px 8px 0;font-size:.83rem;line-height:1.65;color:var(--txt);}
+.explanation.show{display:block;}.explanation.fail{border-left-color:var(--naranja);}
+.exam-footer{padding:0 20px 18px;display:flex;gap:8px;align-items:center;margin-top:12px;}
+.btn-nav{flex:1;padding:10px 5px;border-radius:10px;border:2px solid #d0d8f0;background:#fff;font-size:.85rem;font-weight:700;cursor:pointer;color:var(--txt);transition:all .18s;}
+.btn-nav:hover{border-color:var(--azul);background:var(--azul-light);}.btn-nav:disabled{opacity:.35;cursor:default;}
+.btn-entregar{padding:10px 15px;border-radius:10px;border:none;font-size:.85rem;font-weight:800;cursor:pointer;color:#fff;background:linear-gradient(135deg,var(--naranja),var(--naranja-mid));white-space:nowrap;box-shadow:0 3px 10px rgba(255,69,0,.3);}
+#screen-timeout{text-align:center;}
+#screen-timeout h2{font-size:1.2rem;margin-bottom:10px;color:var(--naranja);}
+#screen-timeout p{color:var(--sub);margin-bottom:20px;line-height:1.6;}
+#screen-results h2{text-align:center;font-size:1.2rem;margin-bottom:14px;color:var(--azul);font-weight:800;}
+.result-summary{background:linear-gradient(135deg,var(--azul),var(--azul-dark));border-radius:14px;padding:20px;text-align:center;margin-bottom:16px;box-shadow:0 4px 16px rgba(0,51,204,.25);}
+.result-score{font-size:2.5rem;font-weight:800;color:#fff;}
+.result-label{font-size:.82rem;color:rgba(255,255,255,.8);margin-top:3px;}
+.lect-results{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+.lect-card{border-radius:12px;padding:13px;border:2px solid #c0d0f0;background:var(--azul-light);}
+.lect-card-title{font-size:.68rem;font-weight:800;color:var(--azul);text-transform:uppercase;letter-spacing:.3px;margin-bottom:6px;}
+.lect-card-score{font-size:1.5rem;font-weight:800;color:var(--azul);}
+.lect-card-pct{font-size:.75rem;color:var(--sub);margin-top:2px;}
+.result-bars{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin-bottom:16px;}
+.rbar-card{border-radius:11px;padding:11px 7px;text-align:center;color:#fff;}
+.rbar-val{font-size:1.2rem;font-weight:800;}.rbar-lbl{font-size:.67rem;opacity:.85;margin-top:2px;}
+.cne-block{background:#fff;border:2px solid #c0d0f0;border-radius:12px;padding:15px 17px;margin-bottom:14px;}
+.cne-title{font-size:.73rem;font-weight:800;color:var(--azul);letter-spacing:.4px;margin-bottom:9px;text-transform:uppercase;}
+.cne-score-row{display:flex;align-items:baseline;gap:8px;margin-bottom:3px;}
+.cne-score{font-size:2.4rem;font-weight:800;line-height:1;}
+.cne-max{font-size:.8rem;color:var(--sub);font-weight:600;}
+.cne-label{font-size:.8rem;font-weight:700;margin-bottom:11px;}
+.cne-scale-labels{display:flex;justify-content:space-between;font-size:.62rem;color:var(--sub);margin-bottom:3px;}
+.cne-track{height:10px;background:#e8eeff;border-radius:5px;overflow:hidden;}
+.cne-fill{height:100%;border-radius:5px;transition:width .9s ease;}
+.cne-ticks{display:flex;justify-content:space-between;margin-top:2px;}.cne-tick{font-size:.58rem;color:#aab4d4;}
+.cne-note{font-size:.67rem;color:var(--sub);margin-top:8px;line-height:1.5;border-top:1px solid #e8eeff;padding-top:6px;}
+.review-section h3{font-size:.86rem;margin-bottom:9px;font-weight:800;color:var(--azul);}
+.rev-lect-hdr{font-size:.78rem;font-weight:800;margin:12px 0 7px;padding:5px 11px;border-radius:7px;background:var(--azul-light);color:var(--azul);}
+.rev-item{border:1px solid #d8e4f8;border-radius:9px;padding:11px 13px;margin-bottom:7px;}
+.rev-header{display:flex;align-items:center;gap:6px;margin-bottom:5px;}
+.rev-badge{font-size:.67rem;font-weight:700;padding:2px 7px;border-radius:20px;}
+.rev-badge.ok{background:#d5f5e3;color:#1e8449;}.rev-badge.fail{background:#fce4e4;color:#c0392b;}.rev-badge.skip{background:#f0f0f0;color:#888;}
+.rev-num{font-size:.68rem;color:#aaa;}.rev-q{font-size:.83rem;line-height:1.5;margin-bottom:4px;}
+.rev-ans{font-size:.77rem;color:var(--sub);}.rev-ans.ok-ans{color:#1e8449;font-weight:600;}
+.rev-exp{font-size:.77rem;color:var(--txt);margin-top:4px;border-top:1px solid #eef0f8;padding-top:4px;line-height:1.5;}
+.btn-retry{background:linear-gradient(135deg,var(--azul),var(--azul-dark));color:#fff;border:none;border-radius:12px;width:100%;padding:12px;font-size:.93rem;font-weight:800;cursor:pointer;margin-top:10px;}.btn-retry:hover{opacity:.88;}
+.modal-bg{position:fixed;inset:0;background:rgba(0,20,80,.5);display:none;align-items:center;justify-content:center;z-index:999;padding:16px;}
+.modal-bg.open{display:flex;}
+.modal{background:#fff;border-radius:14px;padding:22px 18px;max-width:330px;width:100%;box-shadow:0 12px 40px rgba(0,0,0,.2);}
+.modal h3{font-size:.97rem;margin-bottom:7px;color:var(--azul);font-weight:800;}
+.modal p{font-size:.83rem;color:var(--sub);margin-bottom:16px;line-height:1.6;}
+.modal-btns{display:flex;gap:8px;}.modal-btns button{flex:1;padding:10px;border-radius:9px;border:none;font-size:.86rem;font-weight:700;cursor:pointer;}
+.btn-cancel{background:#eef0f8;color:var(--txt);}.btn-confirm{background:linear-gradient(135deg,var(--naranja),var(--naranja-mid));color:#fff;}
+@media(max-width:560px){body{padding:0 0 20px;}.wrap{padding:0 8px;}.card{padding:16px 12px;}.exam-header,.exam-body,.exam-footer,.nav-section,.progress-wrap{padding-left:13px;padding-right:13px;}.nav-btn{width:27px;height:27px;font-size:.74rem;}.result-score{font-size:2rem;}.cne-score{font-size:1.9rem;}.lect-results{grid-template-columns:1fr;}.info-grid{grid-template-columns:1fr 1fr;}}
+
+.habilidades-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
+.hab-tag{background:var(--azul-light);border:1px solid #c0d0f0;border-radius:8px;
+  padding:9px 10px;font-size:.76rem;color:var(--azul);font-weight:600;
+  display:flex;align-items:center;gap:7px;}
+.q-text{white-space:pre-line;font-size:.93rem;line-height:1.8;margin-bottom:14px;font-weight:500;}
+.tip-box{background:#f0f7ff;border:1px solid #c0d8f0;border-radius:10px;
+  padding:11px 14px;margin-bottom:16px;font-size:.8rem;color:#2c5282;line-height:1.7;}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-logo"><img src="logo.png" alt="Logo" style="width:60px;height:60px;object-fit:contain"></div>
+    <div>
+      <div class="hero-title">Asesorías Académicas <span>Izamal</span></div>
+      <div class="hero-subtitle">Simulacro EXANI-II · Premedicina · Subárea 3: Biología Celular</div>
+      <span class="hero-badge">🩺 Subárea 3: Biología Celular</span>
+    </div>
+  </div>
+  <div class="hero-stripe"></div>
+</div>
+<div class="wrap">
+<div class="card" id="screen-home">
+  <h2>Simulacro 6 — Biología Celular y Microbiología (B)</h2>
+  <p class="home-sub">Repaso general · Módulo Premedicina EXANI-II<br>Reactivos basados en ediciones pasadas del examen.</p>
+  <div class="habilidades-grid"><div class="hab-tag"><span>🧬</span> Transcripción · Traducción · ADN (5)</div><div class="hab-tag"><span>🔬</span> Microorganismos y enfermedades (5)</div><div class="hab-tag"><span>⚡</span> Metabolismo celular · ATP · Krebs (5)</div><div class="hab-tag"><span>💊</span> Antibióticos · Mecanismo de acción (4)</div><div class="hab-tag"><span>🔄</span> Transporte membranal · División celular (5)</div></div>
+  <div class="info-grid">
+    <div class="info-card"><div class="val">24</div><div class="lbl">Preguntas</div></div>
+    <div class="info-card"><div class="val">40 min</div><div class="lbl">Tiempo</div></div>
+    <div class="info-card"><div class="val">V6</div><div class="lbl">Versión</div></div>
+  </div>
+  <div class="tip-box">💡 <strong>Tip EXANI-II:</strong> En premedicina predominan reactivos de comprensión conceptual. Lee el enunciado completo antes de elegir. Elimina opciones claramente incorrectas. Confía en tu primer instinto si el tema lo dominas.</div>
+  <button class="btn-primary" onclick="startExam()">▶ Comenzar simulacro</button>
+</div>
+<div class="card" id="screen-exam" style="display:none;padding:0">
+  <div class="exam-header">
+    <div class="lectura-pill">🩺 Subárea 3: Biología Celular</div>
+    <div class="timer-box" id="timer-box">40:00</div>
+  </div>
+  <div class="progress-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
+  <div class="nav-section">
+    <div class="nav-label">Azul: correcta · Naranja: incorrecta · Gris: pendiente</div>
+    <div class="nav-grid" id="nav-grid"></div>
+  </div>
+  <div class="exam-body">
+    <div class="q-num" id="q-num"></div>
+    <div class="q-text" id="q-text"></div>
+    <div class="options" id="options"></div>
+    <div class="explanation" id="explanation"></div>
+  </div>
+  <div class="exam-footer">
+    <button class="btn-nav" id="btn-prev" onclick="goTo(STATE.qIdx-1)">← Anterior</button>
+    <button class="btn-nav" id="btn-next-nav" onclick="goTo(STATE.qIdx+1)">Siguiente →</button>
+    <button class="btn-entregar" id="btn-entregar" style="display:none" onclick="pedirConfirmar()">Entregar</button>
+  </div>
+</div>
+<div class="card" id="screen-timeout" style="display:none">
+  <h2 style="color:var(--naranja);text-align:center;margin-bottom:10px">⏰ Tiempo agotado</h2>
+  <p style="text-align:center;color:var(--sub);margin-bottom:20px">Se agotó el tiempo. Las preguntas sin responder cuentan como incorrectas.</p>
+  <button class="btn-retry" onclick="finishAndShow()">Ver resultados →</button>
+</div>
+<div class="card" id="screen-results" style="display:none">
+  <h2>📊 Resultados del simulacro</h2>
+  <div class="result-summary"><div class="result-score" id="res-score">—</div><div class="result-label">Reactivos correctos · 24 preguntas</div></div>
+  <div class="cne-block">
+    <div class="cne-title">📊 Índice CENEVAL Estimado</div>
+    <div class="cne-score-row"><span class="cne-score" id="cne-val">—</span><span class="cne-max">/ 1300</span></div>
+    <div class="cne-label" id="cne-lbl"></div>
+    <div class="cne-scale-labels"><span>700</span><span>800</span><span>900</span><span>1000</span><span>1100</span><span>1200</span><span>1300</span></div>
+    <div class="cne-track"><div class="cne-fill" id="cne-bar" style="width:0%"></div></div>
+    <div class="cne-ticks"><span class="cne-tick">▲Mín</span><span class="cne-tick" style="margin:0 auto">▲Media(1000)</span><span class="cne-tick">Máx▲</span></div>
+    <div class="cne-note" id="cne-note"></div>
+  </div>
+  <div class="result-bars">
+    <div class="rbar-card" style="background:#27ae60"><div class="rbar-val" id="res-ok">0</div><div class="rbar-lbl">Correctas</div></div>
+    <div class="rbar-card" style="background:var(--naranja)"><div class="rbar-val" id="res-fail">0</div><div class="rbar-lbl">Incorrectas</div></div>
+    <div class="rbar-card" style="background:#95a5a6"><div class="rbar-val" id="res-skip">0</div><div class="rbar-lbl">Sin responder</div></div>
+  </div>
+  <div class="review-section"><h3>Revisión detallada</h3><div id="review-list"></div></div>
+  <button class="btn-retry" onclick="retryExam()">🔄 Intentar de nuevo</button>
+</div>
+<div class="modal-bg" id="modal-bg">
+  <div class="modal">
+    <h3>¿Entregar el simulacro?</h3><p id="modal-msg"></p>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="cerrarModal()">Cancelar</button>
+      <button class="btn-confirm" onclick="confirmarEntrega()">Entregar</button>
+    </div>
+  </div>
+</div>
+</div>
+<script>
+const BANCO = [
+{
+"tipo": "regular",
+"enunciado": "¿Cuál es el proceso mediante el cual el ADN se copia a ARN mensajero?",
+"a": "Traducción.",
+"b": "Replicación.",
+"c": "Transcripción.",
+"correcta": "c",
+"exp": "La transcripción es la síntesis de ARNm a partir de la secuencia de ADN. Ocurre en el núcleo celular, catalizada por la ARN polimerasa. La cadena molde de ADN (3'→5') sirve como plantilla para sintetizar el ARNm complementario (5'→3'). La replicación copia ADN→ADN (antes de la división celular). La traducción convierte ARNm→proteína (en los ribosomas)."
+},
+{
+"tipo": "regular",
+"enunciado": "¿Cuáles son las diferencias morfológicas entre bacterias grampositivas y gramnegativas?",
+"a": "Las grampositivas tienen pared delgada; las gramnegativas tienen pared gruesa.",
+"b": "Las grampositivas tienen pared gruesa de peptidoglicano (teñida de azul/violeta); las gramnegativas tienen pared delgada + membrana externa (teñidas de rojo/rosa).",
+"c": "Las grampositivas tienen membrana externa; las gramnegativas no tienen membrana.",
+"correcta": "b",
+"exp": "La tinción de Gram diferencia bacterias según su pared: Grampositivas: pared gruesa de peptidoglicano (20-80 nm), retienen el cristal violeta → azul/violeta. Gramnegativas: pared delgada de peptidoglicano (2-7 nm) + membrana externa con lipopolisacárido (LPS) → se decoloran y se tiñen con safranina → rojo/rosa. El LPS gramnegativo actúa como endotoxina causando sepsis."
+},
+{
+"tipo": "regular",
+"enunciado": "¿Cuál es el proceso de la meiosis y para qué sirve?",
+"a": "División celular que produce 2 células hijas diploides idénticas para el crecimiento.",
+"b": "División celular que produce 4 células hijas haploides (n) genéticamente únicas para la formación de gametos.",
+"c": "Proceso de reparación del ADN dañado que ocurre en todas las células del organismo.",
+"correcta": "b",
+"exp": "La meiosis es un proceso de dos divisiones celulares (meiosis I y II) que produce 4 células hijas haploides (n=23 cromosomas en humanos) genéticamente únicas (por sobrecruzamiento o crossing-over en la meiosis I). Ocurre en las gónadas para producir: espermatozoides (espermatogénesis) y óvulos (oogénesis). La diversidad genética se genera por: sobrecruzamiento + segregación independiente de cromosomas."
+},
+{
+"tipo": "regular",
+"enunciado": "¿Cuál es la función del retículo endoplásmico liso (REL)?",
+"a": "Síntesis de proteínas mediante ribosomas asociados a su membrana.",
+"b": "Síntesis de lípidos, desintoxicación de fármacos y metabolismo del glucógeno.",
+"c": "Degradación de proteínas dañadas mediante el sistema ubiquitina-proteasoma.",
+"correcta": "b",
+"exp": "El REL (sin ribosomas) cumple funciones: (1) Síntesis de lípidos (fosfolípidos, colesterol, esteroides). (2) Metabolismo de lípidos y glucógeno (en hígado). (3) Desintoxicación de fármacos y alcohol (en hepatocitos, mediante citocromo P450). (4) Almacenamiento de Ca²⁺ (en músculo = retículo sarcoplásmico). El RER (con ribosomas) sintetiza proteínas secretadas."
+},
+{
+"tipo": "regular",
+"enunciado": "¿Cuál es la causa genética del síndrome de Turner?",
+"a": "Trisomía del cromosoma 21.",
+"b": "Monosomía del cromosoma X (45,X): solo un cromosoma sexual (X) en lugar de dos (XX).",
+"c": "Deleción del brazo corto del cromosoma 5.",
+"correcta": "b",
+"exp": "El síndrome de Turner (45,X o 45,XO) es la monosomía del cromosoma X: las mujeres tienen solo un cromosoma X en lugar de dos. Características: talla baja, cuello alado (pterygium colli), tórax ancho, cubitus valgus, amenorrea primaria, infertilidad (ovarios disgenéticos). Trisomía 21 = Down. Deleción 5p = síndrome del maullido del gato (cri du chat)."
+},
+{
+"tipo": "regular",
+"enunciado": "¿Cuáles son las características morfológicas de los hongos?",
+"a": "Son organismos procariotas unicelulares sin pared celular.",
+"b": "Son organismos eucariotas con pared celular de quitina, pueden ser unicelulares (levaduras) o pluricelulares (filamentosos/mohos).",
+"c": "Son virus de gran tamaño que se replican dentro de las células del huésped.",
+"correcta": "b",
+"exp": "Los hongos son organismos eucariotas con pared celular de QUITINA (a diferencia de las plantas con celulosa y bacterias con peptidoglicano). Se clasifican en: (1) Levaduras: unicelulares, reproducción asexual por gemación (ej. Candida, Saccharomyces). (2) Mohos/filamentosos: pluricelulares, forman hifas y micelio (ej. Aspergillus, Rhizopus). (3) Dimórficos: pueden ser levaduras o mohos según la temperatura."
+},
+{
+"tipo": "asoc",
+"enunciado": "Relaciona cada patógeno con la enfermedad que causa.\n1. Mycobacterium tuberculosis  2. Taenia solium  3. Candida albicans  4. Dengue virus\n—\na) Candidiasis (oral, vaginal o sistémica).\nb) Tuberculosis pulmonar y extrapulmonar.\nc) Dengue (fiebre hemorrágica).\nd) Teniasis y cisticercosis.",
+"a": "1b - 2d - 3a - 4c",
+"b": "1d - 2b - 3c - 4a",
+"c": "1a - 2c - 3d - 4b",
+"correcta": "a",
+"exp": "M. tuberculosis (1b): bacilo ácido-alcohol resistente; tuberculosis. Taenia solium (2d): cestodo (gusano plano); teniasis (intestinal) y cisticercosis (larvas en músculos/cerebro). C. albicans (3a): hongo dimórfico; candidiasis (infección oportunista). Dengue virus (4c): Flavivirus; transmitido por Aedes aegypti; dengue clásico y hemorrágico."
+},
+{
+"tipo": "regular",
+"enunciado": "¿Cuáles son los productos netos de la glucólisis completa (una molécula de glucosa)?",
+"a": "38 ATP, CO₂ y H₂O.",
+"b": "2 ATP netos, 2 NADH y 2 piruvatos.",
+"c": "6 CO₂ y 6 H₂O.",
+"correcta": "b",
+"exp": "La glucólisis en sí misma (solo esta vía) produce a partir de 1 glucosa: 2 piruvatos, 2 ATP NETOS (se gastan 2 y se producen 4), 2 NADH. No produce CO₂ ni H₂O directamente. Los 38 ATP (opción a) corresponden a la respiración aerobia completa (glucólisis + ciclo de Krebs + cadena transportadora de electrones). 6 CO₂ + 6 H₂O es la ecuación global de la respiración aerobia."
+},
+{
+"tipo": "regular",
+"enunciado": "¿Cuál es el proceso de la replicación del ADN y cuándo ocurre?",
+"a": "Ocurre durante la mitosis (metafase) cuando los cromosomas están condensados.",
+"b": "Ocurre durante la fase S de la interfase, antes de la división celular, produciendo dos copias idénticas del ADN.",
+"c": "Ocurre después de la división celular para restaurar el ADN en cada célula hija.",
+"correcta": "b",
+"exp": "La replicación del ADN ocurre en la fase S (síntesis) de la interfase, antes de que comience la mitosis o meiosis. Es semiconservativa: cada nueva doble hélice conserva una cadena parental y sintetiza una nueva complementaria. La enzima principal es la ADN polimerasa (requiere un ARN cebador/primer iniciado por la primasa). Al final de la fase S, cada cromosoma tiene 2 cromátidas hermanas unidas por el centrómero."
+},
+{
+"tipo": "regular",
+"enunciado": "¿Cuáles son las diferencias entre las enfermedades causadas por virus, bacterias y parásitos en términos de tratamiento?",
+"a": "Todas se tratan con antibióticos de amplio espectro.",
+"b": "Las bacterias se tratan con antibióticos; los virus con antivirales (o no tienen tratamiento específico); los parásitos con antiparasitarios.",
+"c": "Los virus se tratan con antibióticos; las bacterias con antivirales.",
+"correcta": "b",
+"exp": "Los antibióticos actúan sobre estructuras específicas de las bacterias (pared celular, ribosomas 70S, síntesis de ADN) que no existen en células eucariotas. Los virus no tienen metabolismo propio (son acelulares) y no responden a antibióticos; se usan antivirales que interfieren con su replicación (ej. aciclovir, oseltamivir). Los parásitos (protozoos y helmintos) requieren antiparasitarios específicos (metronidazol, ivermectina, mebendazol)."
+},
+{
+"tipo": "regular",
+"enunciado": "¿Cuál es la función del centrosoma en la división celular?",
+"a": "Sintetizar el ADN que se replicará durante la fase S.",
+"b": "Organizar el huso mitótico mediante la polimerización de microtúbulos que separan los cromosomas.",
+"c": "Degradar las proteínas innecesarias durante la división celular.",
+"correcta": "b",
+"exp": "El centrosoma (par de centriolos + material pericentriolar) es el centro organizador de microtúbulos (MTOC). Durante la división celular, los centrosomas se duplican y migran a los polos opuestos, organizando el huso mitótico (red de microtúbulos que captura los cromosomas por el cinetocoro y los separa durante la anafase). Su disfunción causa errores en la segregación cromosómica."
+},
+{
+"tipo": "regular",
+"enunciado": "¿Cuál es el mecanismo de la fermentación láctica?",
+"a": "Producción de etanol y CO₂ a partir del piruvato en ausencia de oxígeno (en levaduras).",
+"b": "Conversión del piruvato en lactato (en ausencia de O₂) para regenerar el NAD⁺ y permitir la continuación de la glucólisis.",
+"c": "Producción de ATP mediante la fosforilación oxidativa en las mitocondrias.",
+"correcta": "b",
+"exp": "La fermentación láctica ocurre en condiciones anaerobias: piruvato + NADH → lactato + NAD⁺ (catalizada por la lactato deshidrogenasa). La función es regenerar el NAD⁺ consumido en la glucólisis para que esta pueda continuar y seguir produciendo ATP. Ocurre en músculo esquelético en ejercicio intenso, eritrocitos (no tienen mitocondrias) y bacterias lácticas. La opción a) es la fermentación alcohólica (levaduras)."
+},
+{
+"tipo": "regular",
+"enunciado": "¿Cuál es la relación entre el codón y el anticodón en la síntesis proteica?",
+"a": "El codón es la secuencia de 3 nucleótidos del ARNt que reconoce al ARNm.",
+"b": "El codón es la secuencia de 3 nucleótidos del ARNm que codifica un aminoácido; el anticodón es la secuencia complementaria del ARNt que reconoce al codón.",
+"c": "El codón y el anticodón son la misma secuencia en diferentes momentos de la traducción.",
+"correcta": "b",
+"exp": "El código genético es de tripletes: cada codón (3 nucleótidos del ARNm) codifica un aminoácido específico. El ARNt tiene un anticodón complementario al codón del ARNm (emparejamiento antiparalelo). Ejemplo: codón AUG (metionina/inicio) es reconocido por el anticodón UAC del ARNt-Met. Hay 64 codones posibles: 61 codifican aminoácidos y 3 son codones de terminación (UAA, UAG, UGA)."
+},
+{
+"tipo": "regular",
+"enunciado": "¿Cuáles son los tipos de transporte membranal que no requieren energía?",
+"a": "Transporte activo primario y secundario.",
+"b": "Difusión simple y difusión facilitada.",
+"c": "Endocitosis y exocitosis.",
+"correcta": "b",
+"exp": "Transporte pasivo (sin energía): (1) Difusión simple: moléculas pequeñas no polares atraviesan la bicapa lipídica siguiendo su gradiente de concentración (O₂, CO₂). (2) Difusión facilitada: moléculas polares o iones usan proteínas transportadoras (canales o carriers) siguiendo su gradiente (glucosa por GLUT, iones por canales iónicos). El transporte activo (opción a) requiere ATP. La endocitosis y exocitosis (opción c) requieren energía y son formas de transporte vesicular."
+},
+{
+"tipo": "regular",
+"enunciado": "¿Cuál es el proceso del ciclo de Krebs y cuántos ATP produce directamente?",
+"a": "Es la cadena transportadora de electrones; produce 34 ATP.",
+"b": "Es el ciclo del ácido cítrico en la matriz mitocondrial; produce 2 GTP directamente (equivalentes a 2 ATP) por glucosa.",
+"c": "Es la glucólisis; produce 2 ATP netos en el citoplasma.",
+"correcta": "b",
+"exp": "El ciclo de Krebs (ciclo del ácido cítrico) ocurre en la matriz mitocondrial. Por cada vuelta (1 acetil-CoA) produce: 3 NADH, 1 FADH₂, 1 GTP (=1 ATP), 2 CO₂. Por glucosa (2 acetil-CoA → 2 vueltas): 6 NADH, 2 FADH₂, 2 GTP, 4 CO₂. Directamente solo produce 2 GTP. Los NADH y FADH₂ producen la mayor parte del ATP a través de la cadena respiratoria (~32-34 ATP por glucosa)."
+},
+{
+"tipo": "regular",
+"enunciado": "¿Cuál es la diferencia entre mutación génica y mutación cromosómica?",
+"a": "Son términos equivalentes que describen el mismo tipo de cambio en el material genético.",
+"b": "La mutación génica afecta la secuencia de bases de un gen (sustitución, inserción, deleción de nucleótidos); la mutación cromosómica afecta la estructura o número de cromosomas.",
+"c": "Las mutaciones génicas siempre causan enfermedades graves; las cromosómicas son inofensivas.",
+"correcta": "b",
+"exp": "Mutación génica (puntual): cambio en la secuencia de nucleótidos de un gen. Tipos: sustitución (missense, nonsense, silenciosa), inserción o deleción de bases (causan frameshift). Ejemplos: anemia de células falciformes (sustitución puntual). Mutación cromosómica: cambios en la estructura (deleción, duplicación, inversión, translocación) o número de cromosomas (aneuploidía: trisomía, monosomía; poliploidía). Ejemplo: síndrome de Down (trisomía 21)."
+},
+{
+"tipo": "regular",
+"enunciado": "¿Cuál es la función de los fagocitos (macrófagos y neutrófilos) en la respuesta inmune?",
+"a": "Producir anticuerpos específicos contra los antígenos de los patógenos.",
+"b": "Engullir y destruir mediante fagocitosis a bacterias, partículas extrañas y células muertas.",
+"c": "Presentar antígenos a los linfocitos T para iniciar la respuesta inmune específica.",
+"correcta": "b",
+"exp": "La fagocitosis es el proceso por el cual los fagocitos profesionales (macrófagos y neutrófilos) engullen microorganismos, partículas y células muertas mediante la extensión de seudópodos → formación del fagosoma → fusión con lisosomas → digestión intracelular. Es la primera línea de defensa celular (inmunidad innata). Los linfocitos B producen anticuerpos (opción a). Las células presentadoras de antígeno (CPA, incluyendo macrófagos) también cumplen la función de opción c."
+},
+{
+"tipo": "regular",
+"enunciado": "¿Cuál es el mecanismo de acción de los antibióticos betalactámicos?",
+"a": "Inhiben la síntesis de proteínas bacterianas uniéndose a la subunidad 30S del ribosoma.",
+"b": "Inhiben la síntesis de la pared celular bacteriana al bloquear la transpeptidación del peptidoglicano.",
+"c": "Alteran la permeabilidad de la membrana plasmática bacteriana.",
+"correcta": "b",
+"exp": "Los antibióticos betalactámicos (penicilinas, cefalosporinas, carbapenems, monobactámicos) actúan inhibiendo las proteínas de unión a la penicilina (PBP), enzimas que catalizan la transpeptidación en la síntesis de la pared de peptidoglicano. Sin pared celular intacta, la bacteria se lisa por presión osmótica. Son bactericidas. Los aminoglucósidos (opción a) inhiben la síntesis proteica en 30S. La polimixina B (opción c) afecta la membrana."
+},
+{
+"tipo": "regular",
+"enunciado": "¿Cuál es la diferencia entre antígeno y anticuerpo?",
+"a": "El antígeno es producido por el sistema inmune; el anticuerpo es una sustancia extraña que lo activa.",
+"b": "El antígeno es cualquier molécula que puede desencadenar una respuesta inmune; el anticuerpo es la proteína (inmunoglobulina) producida por los linfocitos B en respuesta a ese antígeno.",
+"c": "Los antígenos y anticuerpos son la misma molécula denominada de diferente forma según el contexto.",
+"correcta": "b",
+"exp": "Antígeno: cualquier molécula (proteína, polisacárido, lípido, ácido nucleico) que el sistema inmune reconoce como extraña y puede desencadenar una respuesta inmune. Anticuerpo (inmunoglobulina): proteína en forma de Y producida por las células plasmáticas (linfocitos B diferenciados) que se une específicamente al antígeno que indujo su producción. La unión antígeno-anticuerpo activa mecanismos de eliminación del patógeno."
+},
+{
+"tipo": "regular",
+"enunciado": "¿Cuál es la función de la proteína albúmina en el plasma sanguíneo?",
+"a": "Transportar oxígeno desde los pulmones a los tejidos periféricos.",
+"b": "Mantener la presión oncótica del plasma, transportar diversas sustancias (ácidos grasos, fármacos, hormonas) y contribuir al equilibrio ácido-base.",
+"c": "Coagular la sangre cuando hay una lesión en la pared vascular.",
+"correcta": "b",
+"exp": "La albúmina es la proteína plasmática más abundante (3.5-5 g/dL), producida por el hígado. Sus funciones: (1) Mantiene la presión oncótica (coloidosmótica) del plasma, evitando la salida excesiva de líquido hacia los tejidos. (2) Transporta: ácidos grasos libres, bilirrubina no conjugada, hormonas tiroideas, calcio, fármacos, vitaminas. (3) Actúa como tampón proteico. Su disminución causa hipoalbuminemia con edema."
+},
+{
+"tipo": "regular",
+"enunciado": "¿Qué tipo de enlace une los nucleótidos en una cadena de ADN?",
+"a": "Puentes de hidrógeno entre las bases nitrogenadas.",
+"b": "Enlace peptídico entre aminoácidos.",
+"c": "Enlace fosfodiéster entre el grupo fosfato de un nucleótido y el azúcar del siguiente.",
+"correcta": "c",
+"exp": "El esqueleto del ADN está formado por enlaces fosfodiéster: el grupo fosfato de un nucleótido se une al carbono 3' del azúcar del nucleótido anterior y al carbono 5' del azúcar del nucleótido siguiente (enlace 3'→5'). Los puentes de hidrógeno (opción a) unen las bases de las dos cadenas (A=T con 2 puentes; G≡C con 3 puentes), no los nucleótidos dentro de la misma cadena. Los enlaces peptídicos unen aminoácidos en proteínas."
+},
+{
+"tipo": "regular",
+"enunciado": "¿Cuáles son las vías de administración de los fármacos más comunes?",
+"a": "Solo la vía intravenosa y la oral son válidas en medicina.",
+"b": "Oral, parenteral (intravenosa, intramuscular, subcutánea), tópica, inhalatoria, sublingual, rectal.",
+"c": "Únicamente la vía oral y la tópica se usan en medicina moderna.",
+"correcta": "b",
+"exp": "Las principales vías de administración de fármacos son: (1) Oral (VO): cómoda, segura, efecto de primer paso hepático. (2) Intravenosa (IV): efecto inmediato, 100% biodisponibilidad. (3) Intramuscular (IM): absorción rápida. (4) Subcutánea (SC): absorción lenta y sostenida. (5) Tópica: acción local. (6) Inhalatoria: pulmones y vías respiratorias. (7) Sublingual: absorción rápida, evita primer paso. (8) Rectal: cuando la vía oral no es posible."
+},
+{
+"tipo": "regular",
+"enunciado": "¿Cuál es la función de la membrana plasmática?",
+"a": "Sintetizar las proteínas que la célula necesita para su funcionamiento.",
+"b": "Regular el paso de sustancias entre el interior y el exterior celular, mantener la integridad celular y participar en la comunicación celular.",
+"c": "Producir ATP mediante la oxidación de glucosa y otros sustratos energéticos.",
+"correcta": "b",
+"exp": "La membrana plasmática (bicapa fosfolipídica con proteínas) cumple: (1) Barrera selectiva: regula el ingreso y salida de sustancias (transporte pasivo y activo). (2) Integridad celular: mantiene el compartimento intracelular. (3) Comunicación: receptores de membrana reconocen señales extracelulares (hormonas, neurotransmisores). (4) Adhesión celular: proteínas de adhesión unen células entre sí o a la matriz extracelular. La síntesis proteica es en ribosomas; la producción de ATP es mitocondrial."
+},
+{
+"tipo": "regular",
+"enunciado": "¿Cuáles son los tipos de reacciones metabólicas en las células?",
+"a": "Solo existen reacciones de oxidación y reducción (redox) en el metabolismo.",
+"b": "Reacciones anabólicas (síntesis de moléculas complejas, consumen ATP) y catabólicas (degradación de moléculas, liberan energía/ATP).",
+"c": "Reacciones enzimáticas y no enzimáticas que no requieren energía.",
+"correcta": "b",
+"exp": "El metabolismo celular se divide en: (1) Catabolismo: degradación de moléculas complejas (glucosa, lípidos, proteínas) en moléculas simples, liberando energía que se almacena en ATP (respiración celular, glucólisis). (2) Anabolismo: síntesis de moléculas complejas a partir de simples, consumiendo ATP (síntesis proteica, gluconeogénesis, síntesis de lípidos). El balance entre catabolismo y anabolismo mantiene la homeostasis energética celular."
+}
+];
+const TIEMPO_MIN = 40;
+const STATE = {qIdx:0,answers:{},timerSec:0,timerID:null};
+const $=id=>document.getElementById(id);
+const show=id=>$(id).style.display='block';
+const hide=id=>$(id).style.display='none';
+function fmtT(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+function calcCNE(c,t){if(!t)return 1000;const z=((c/t)*100-50)/16.67;return Math.min(1300,Math.max(700,Math.round(1000+100*z)));}
+function cneColor(c){return c>=1050?'#1e8449':c>=950?'#d4ac0d':'#cc3300';}
+function cneLabel(c){return c>=1100?'Muy por encima de la media':c>=1050?'Por encima de la media':c>=950?'Cerca de la media':c>=900?'Por debajo de la media':'Muy por debajo de la media';}
+function shuffleReactivo(r){
+  if(r._opts)return;
+  const tc=r[r.correcta];
+  let opts=[{l:'a',t:r.a},{l:'b',t:r.b},{l:'c',t:r.c}];
+  if(r.tipo!=='asoc'&&r.tipo!=='comp'){
+    for(let i=opts.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[opts[i],opts[j]]=[opts[j],opts[i]];}
+  }
+  r._opts=opts; r._answerKey=opts.find(o=>o.t===tc).l;
+}
+function startExam(){
+  STATE.qIdx=0;STATE.answers={};
+  BANCO.forEach(r=>{delete r._opts;delete r._answerKey;shuffleReactivo(r);});
+  hide('screen-home');buildNavGrid();show('screen-exam');startTimer();renderQ();
+}
+function retryExam(){hide('screen-results');startExam();}
+function startTimer(){
+  STATE.timerSec=TIEMPO_MIN*60;renderTimer();
+  STATE.timerID=setInterval(()=>{STATE.timerSec--;renderTimer();
+    if(STATE.timerSec<=0){clearInterval(STATE.timerID);timeOut();}},1000);
+}
+function renderTimer(){
+  const tb=$('timer-box');tb.textContent=fmtT(STATE.timerSec);
+  tb.className='timer-box'+(STATE.timerSec<=60?' danger':STATE.timerSec<=180?' warn':'');
+}
+function timeOut(){hide('screen-exam');show('screen-timeout');}
+function finishAndShow(){hide('screen-timeout');showResults();}
+function buildNavGrid(){
+  const g=$('nav-grid');g.innerHTML='';
+  BANCO.forEach((r,i)=>{
+    const b=document.createElement('button');
+    b.className='nav-btn';b.id='nb-'+i;b.textContent=i+1;b.title=r.tipo;
+    b.onclick=(()=>{const x=i;return()=>goTo(x);})();
+    g.appendChild(b);
+  });
+  updateNav();
+}
+function updateNav(){
+  BANCO.forEach((r,i)=>{
+    const b=$('nb-'+i);if(!b)return;
+    let cls='nav-btn';
+    if(STATE.answers.hasOwnProperty(i))cls+=STATE.answers[i]===r._answerKey?' answered':' wrong-nav';
+    if(i===STATE.qIdx)cls+=' current';
+    b.className=cls;
+  });
+  $('progress-bar').style.width=(Object.keys(STATE.answers).length/BANCO.length*100)+'%';
+}
+function goTo(i){if(i<0||i>=BANCO.length)return;STATE.qIdx=i;renderQ();}
+function renderQ(){
+  const r=BANCO[STATE.qIdx],n=BANCO.length,i=STATE.qIdx;
+  $('q-num').textContent='Pregunta '+(i+1)+' de '+n;
+  $('q-text').textContent=r.enunciado;
+  $('btn-prev').disabled=i===0;
+  $('btn-next-nav').disabled=i===n-1;
+  $('btn-entregar').style.display=i===n-1?'block':'none';
+  const con=$('options');con.innerHTML='';
+  const saved=STATE.answers.hasOwnProperty(i)?STATE.answers[i]:null;
+  const answered=saved!==null,cl=r._answerKey;
+  r._opts.forEach(o=>{
+    const btn=document.createElement('button');
+    btn.className='opt-btn';btn.dataset.key=o.l;
+    const sm=r.tipo==='asoc'||r.tipo==='comp';
+    btn.innerHTML='<span class="opt-letter">'+o.l.toUpperCase()+'</span><span style="'+(sm?'font-size:.83rem;line-height:1.6;':'')+'">'+o.t+'</span>';
+    if(answered){
+      btn.disabled=true;
+      if(saved===cl){if(o.l===cl)btn.classList.add('correct');}
+      else{if(o.l===saved)btn.classList.add('wrong');if(o.l===cl)btn.classList.add('correct');}
+    }else{btn.onclick=()=>selectOpt(o.l,btn);}
+    con.appendChild(btn);
+  });
+  const ex=$('explanation');
+  if(answered){
+    const ok=saved===cl;
+    ex.innerHTML=(ok?'✅ ':'❌ ')+(r.exp||'Respuesta correcta: '+cl.toUpperCase());
+    ex.className='explanation show'+(ok?'':' fail');
+  }else{ex.className='explanation';ex.innerHTML='';}
+  updateNav();
+}
+function selectOpt(key,cb){
+  const r=BANCO[STATE.qIdx];STATE.answers[STATE.qIdx]=key;
+  const cl=r._answerKey,ok=key===cl;
+  document.querySelectorAll('.opt-btn').forEach(b=>{
+    b.disabled=true;
+    if(b.dataset.key===cl)b.classList.add('correct');
+    if(b===cb&&!ok)b.classList.add('wrong');
+  });
+  const ex=$('explanation');
+  ex.innerHTML=(ok?'✅ ':'❌ ')+(r.exp||'Respuesta correcta: '+cl.toUpperCase());
+  ex.className='explanation show'+(ok?'':' fail');
+  updateNav();
+}
+function pedirConfirmar(){
+  const p=BANCO.length-Object.keys(STATE.answers).length;
+  $('modal-msg').innerHTML=p>0?'Tienes <strong>'+p+'</strong> pregunta(s) sin responder. ¿Entregar?':'¿Entregar el simulacro?';
+  $('modal-bg').classList.add('open');
+}
+function cerrarModal(){$('modal-bg').classList.remove('open');}
+function confirmarEntrega(){cerrarModal();clearInterval(STATE.timerID);hide('screen-exam');showResults();}
+function showResults(){
+  let c=0,w=0,sk=0;
+  const porTipo={};
+  BANCO.forEach((r,i)=>{
+    const t=r.tipo||'regular';
+    if(!porTipo[t])porTipo[t]={c:0,t2:0,nom:t};
+    porTipo[t].t2++;
+    if(!STATE.answers.hasOwnProperty(i))sk++;
+    else if(STATE.answers[i]===r._answerKey){c++;porTipo[t].c++;}
+    else w++;
+  });
+  const tot=BANCO.length,pct=Math.round(c/tot*100),cne=calcCNE(c,tot),col=cneColor(cne);
+  $('res-score').textContent=c+'/'+tot+' ('+pct+'%)';
+  $('res-ok').textContent=c;$('res-fail').textContent=w;$('res-skip').textContent=sk;
+  $('cne-val').textContent=cne;$('cne-val').style.color=col;
+  $('cne-lbl').textContent=cneLabel(cne);$('cne-lbl').style.color=col;
+  $('cne-bar').style.width=((cne-700)/600*100)+'%';$('cne-bar').style.background=col;
+  $('cne-note').textContent='Estimado con '+c+' aciertos de '+tot+' ('+pct+'%). Z=(X-50)/16.67, ICNE=1000+100Z.';
+  const rv=$('review-list');rv.innerHTML='';
+  BANCO.forEach((r,i)=>{
+    const g=STATE.answers[i],cl=r._answerKey;
+    const om={};r._opts.forEach(o=>om[o.l]=o.t);
+    let st='skip',bd='Sin responder';
+    if(g){st=g===cl?'ok':'fail';bd=g===cl?'Correcta':'Incorrecta';}
+    rv.innerHTML+='<div class="rev-item"><div class="rev-header">'
+      +'<span class="rev-badge '+st+'">'+bd+'</span>'
+      +'<span class="rev-num">P.'+(i+1)+'</span></div>'
+      +'<div class="rev-q" style="white-space:pre-line;">'+r.enunciado+'</div>'
+      +(g?'<div class="rev-ans">Tu resp: '+g.toUpperCase()+') '+(om[g]||'')+'</div>':'')
+      +(g!==cl?'<div class="rev-ans ok-ans">✓ Correcta: '+cl.toUpperCase()+') '+(om[cl]||'')+'</div>':'')
+      +(r.exp?'<div class="rev-exp">💡 '+r.exp+'</div>':'')
+      +'</div>';
+  });
+  show('screen-results');
+}
+
+</script>
+</body>
+</html>
